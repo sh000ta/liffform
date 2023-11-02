@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>引継ぎフォーム</title>
+</head>
+<body>
+
+  <h2>引継ぎフォーム</h2>
+
+  <!-- ユーザーが情報を入力するフォーム -->
+  <form id="transferForm">
+    <label for="name">名前:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="date">日付:</label>
+    <input type="date" id="date" name="date" required><br>
+
+    <label for="content">内容:</label>
+    <textarea id="content" name="content" rows="4" required></textarea><br>
+
+    <!-- 送信ボタンがクリックされたときに処理を実行 -->
+    <button type="button" onclick="submitForm()">送信</button>
+  </form>
+
+  <!-- 入力内容のプレビューが表示されるエリア -->
+  <div id="preview"></div>
+
+  <script>
+    // フォームが送信されたときに実行される関数
+    function submitForm() {
+      // 入力された情報を取得
+      var name = document.getElementById("name").value;
+      var date = document.getElementById("date").value;
+      var content = document.getElementById("content").value;
+
+      // 入力内容をプレビューとして表示
+      displayPreview(name, date, content);
+
+      // スプレッドシートに情報を転記（実際のアプリケーションではサーバーサイドで行うべき）
+      writeToSpreadsheet(name, date, content);
+
+      // 他の処理を追加する場合はここに記述
+    }
+
+    // 入力内容をプレビューとして表示する関数
+    function displayPreview(name, date, content) {
+      var previewDiv = document.getElementById("preview");
+      previewDiv.innerHTML = "<h3>プレビュー</h3>" +
+                             "<p>名前: " + name + "</p>" +
+                             "<p>日付: " + date + "</p>" +
+                             "<p>内容: " + content + "</p>";
+    }
+
+    // スプレッドシートに情報を転記する関数（実際のアプリケーションではサーバーサイドで行うべき）
+    function writeToSpreadsheet(name, date, content) {
+      // 仮のスプレッドシートURL。実際のものに置き換えてください。
+      var spreadsheetUrl = "
+https://docs.google.com/spreadsheets/d/1NozOlnBwt33CBrwMHKVkNWUazOxipcPRjiHEkP4KjrQ/";
+
+      // スプレッドシートへの転記処理（実際の処理はサーバーサイドで行うべきです）
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", spreadsheetUrl, true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify({ name: name, date: date, content: content }));
+    }
+  </script>
+
+</body>
+</html>
